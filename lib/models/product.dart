@@ -1,5 +1,5 @@
 class Product {
-  final String id;
+  final String? id;
   final String title;
   final String description;
   final double price;
@@ -7,7 +7,7 @@ class Product {
   bool isFavorite;
 
   Product({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
     required this.price,
@@ -18,15 +18,17 @@ class Product {
     String? id,
     String? title,
     String? description,
+    double? price,
     String? imageUrl,
     bool? isFavorite,
   }) {
     return Product(
       id: id ?? this.id,
-      title: title ?? this.id,
+      title: title ?? this.title,
       description: description ?? this.description,
       price: price ?? this.price,
-      imageUrl: imageUrl ?? this.isFavorite,
+      imageUrl: imageUrl ?? this.imageUrl,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }
