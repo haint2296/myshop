@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Product {
   final String? id;
   final String title;
@@ -5,6 +7,8 @@ class Product {
   final double price;
   final String imageUrl;
   bool isFavorite;
+  final List<Color> availableColors;
+  final List<String> availableSizes;
 
   Product({
     this.id,
@@ -13,7 +17,10 @@ class Product {
     required this.price,
     required this.imageUrl,
     this.isFavorite = false,
+    this.availableColors = const [Colors.black, Colors.grey, Colors.blue],
+    this.availableSizes = const ['S', 'M', 'L', 'XL'],
   });
+  
   Product copyWith({
     String? id,
     String? title,
@@ -21,6 +28,8 @@ class Product {
     double? price,
     String? imageUrl,
     bool? isFavorite,
+    List<Color>? availableColors,
+    List<String>? availableSizes,
   }) {
     return Product(
       id: id ?? this.id,
@@ -29,6 +38,8 @@ class Product {
       price: price ?? this.price,
       imageUrl: imageUrl ?? this.imageUrl,
       isFavorite: isFavorite ?? this.isFavorite,
+      availableColors: availableColors ?? this.availableColors,
+      availableSizes: availableSizes ?? this.availableSizes,
     );
   }
 }

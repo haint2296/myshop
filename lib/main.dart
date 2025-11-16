@@ -34,8 +34,10 @@ class MyApp extends StatelessWidget {
       title: 'MyShop',
       debugShowCheckedModeBanner: false,
       theme: themData,
-      home: const SafeArea(
-        child: UserProductsScreen(),
+      home: SafeArea(
+        child: ProductDetailScreen(
+          ProductsManager().items[0],
+        ),
       ),
     );
   }
