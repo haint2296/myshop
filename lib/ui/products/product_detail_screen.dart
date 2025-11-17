@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/product.dart';
+import '../cart/cart_screen.dart';
+import 'products_overview_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -77,6 +79,71 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return 'Màu khác';
   }
 
+  // Navigate to home with custom animation
+  void _navigateToHome() {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ProductsOverviewScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          // Slide transition from left with ease-in-out curve
+          const begin = Offset(-1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOutCubic;
+
+          var tween = Tween(begin: begin, end: end).chain(
+            CurveTween(curve: curve),
+          );
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 600),
+      ),
+    );
+  }
+
+  // Navigate to cart with custom animation
+  void _navigateToCart() {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const CartScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          // Scale and rotate transition with bounce curve
+          const curve = Curves.elasticOut;
+
+          var scaleTween = Tween(begin: 0.0, end: 1.0).chain(
+            CurveTween(curve: curve),
+          );
+          
+          var rotationTween = Tween(begin: 0.0, end: 1.0).chain(
+            CurveTween(curve: Curves.easeInOutBack),
+          );
+
+          return ScaleTransition(
+            scale: scaleTween.animate(animation),
+            child: RotationTransition(
+              turns: rotationTween.animate(animation).drive(
+                Tween(begin: 0.1, end: 0.0),
+              ),
+              child: FadeTransition(
+                opacity: animation,
+                child: child,
+              ),
+            ),
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 800),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,6 +187,52 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
             ),
             actions: [
+              // Home Button
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.home,
+                    color: Colors.purple,
+                  ),
+                  tooltip: 'Trang chủ',
+                  onPressed: _navigateToHome,
+                ),
+              ),
+              // Cart Button
+              Container(
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.shopping_cart,
+                    color: Colors.deepOrange,
+                  ),
+                  tooltip: 'Giỏ hàng',
+                  onPressed: _navigateToCart,
+                ),
+              ),
               // Favorite Button
               Container(
                 margin: const EdgeInsets.only(right: 8),
@@ -141,6 +254,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         : Icons.favorite_border,
                     color: widget.product.isFavorite ? Colors.red : Colors.grey,
                   ),
+                  tooltip: 'Yêu thích',
                   onPressed: _toggleFavorite,
                 ),
               ),
