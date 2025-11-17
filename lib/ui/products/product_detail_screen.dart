@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../models/product.dart';
 import '../cart/cart_screen.dart';
+import '../cart/cart_manager.dart';
 import 'products_overview_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -50,17 +52,66 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void _addToCart() {
-    // TODO: Implement add to cart functionality
+    final cartManager = context.read<CartManager>();
+    
+    // Add product to cart with selected quantity
+    cartManager.addItem(widget.product, quantity: _quantity);
+    
+    // Show success message with details
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          'Đã thêm ${widget.product.title} vào giỏ hàng\n'
-          'Số lượng: $_quantity, Màu: ${_getColorName(_selectedColor)}, Size: $_selectedSize',
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(
+                  Icons.check_circle,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Đã thêm vào giỏ hàng!',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${widget.product.title}',
+              style: const TextStyle(fontSize: 14),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Số lượng: $_quantity | Màu: ${_getColorName(_selectedColor)} | Size: $_selectedSize',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white.withOpacity(0.9),
+              ),
+            ),
+          ],
         ),
-        duration: const Duration(seconds: 2),
+        backgroundColor: Colors.green.shade600,
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
         action: SnackBarAction(
-          label: 'Đóng',
-          onPressed: () {},
+          label: 'Xem giỏ hàng',
+          textColor: Colors.white,
+          onPressed: () {
+            _navigateToCart();
+          },
         ),
       ),
     );
