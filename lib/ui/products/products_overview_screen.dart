@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'products_grid.dart';
 
+import 'package:go_router/go_router.dart';
+
 enum FilterOptions {
   favorites,
   all,
@@ -32,7 +34,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ),
           ShoppingCartButton(
             onPressed: () {
-              print('Go to cart screen');
+              context.push('/cart');  
             },
           ),
         ]

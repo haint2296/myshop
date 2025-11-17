@@ -3,6 +3,8 @@ import '../../models/product.dart';
 import 'product_grid_footer.dart';
 import 'product_detail_screen.dart';
 
+import 'package:go_router/go_router.dart';
+
 class ProductGridTile extends StatelessWidget {
   final Product product;
 
@@ -20,9 +22,7 @@ class ProductGridTile extends StatelessWidget {
         ),
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (ctx) => ProductDetailScreen(product)),
-            );
+            context.push('/products/${product.id}');
           },
           child: Image.network(product.imageUrl, fit: BoxFit.cover),
         ),

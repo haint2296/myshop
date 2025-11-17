@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'user_product_list_tile.dart';
 
+import '../shared/app_drawer.dart';
+
 import 'products_manager.dart';
 
 class UserProductsScreen extends StatelessWidget {
@@ -20,6 +22,7 @@ class UserProductsScreen extends StatelessWidget {
           ),
         ]
       ),
+      drawer: const AppDrawer(),
       body: const UserProductList(),
     );
   }
