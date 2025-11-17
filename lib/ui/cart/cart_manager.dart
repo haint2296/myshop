@@ -1,6 +1,8 @@
 import '../../models/cart_item.dart';
+import '../../models/product.dart';
+import 'package:flutter/foundation.dart';
 
-class CartManager {
+class CartManager with ChangeNotifier {
   final Map<String, CartItem> _items = {
     'p1': CartItem(
       id: 'c1',
@@ -32,35 +34,53 @@ class CartManager {
     return total;
   }
 
-  void addItem(String productId, String title, double price, String imageUrl) {
-    if (_items.containsKey(productId)) {
-      // Cập nhật số lượng nếu sản phẩm đã có
+  void addItem(Product product) {
+    if (_items.containsKey(product.id)) {
       _items.update(
-        productId,
+        product.id!,
         (existingCartItem) => existingCartItem.copyWith(
           quantity: existingCartItem.quantity + 1,
         ),
       );
     } else {
-      // Thêm sản phẩm mới
       _items.putIfAbsent(
-        productId,
+        product.id!,
         () => CartItem(
-          id: DateTime.now().toString(),
-          title: title,
-          imageUrl: imageUrl,
-          price: price,
+          id: 'c${DateTime.now().toIso8601String()}',
+          title: product.title,
+          imageUrl: product.imageUrl,
+          price: product.price,
           quantity: 1,
         ),
       );
     }
+    notifyListeners();
   }
 
   void removeItem(String productId) {
-    _items.remove(productId);
+    if (!_items.containsKey(productId)) {
+      return;
+    }
+    if (_items[productId]!.quantity > 1) {
+      _items.update(
+        productId,
+        (existingCartItem) => existingCartItem.copyWith(
+          quantity: existingCartItem.quantity - 1,
+        ),
+      );
+    } else {
+      _items.remove(productId);
+    }
+    notifyListeners();  
   }
 
-  void clearCart() {
+  void clearItem(String productId) {
+    _items.remove(productId);
+    notifyListeners();
+  }
+
+  void clearAllItems() {
     _items.clear();
+    notifyListeners();
   }
 }
