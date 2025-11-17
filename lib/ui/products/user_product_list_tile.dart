@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 import 'products_manager.dart';
 import '../../models/product.dart';
@@ -61,7 +62,7 @@ class UserProductListTile extends StatelessWidget {
           children: <Widget>[
             EditUserProductButton(
               onPressed: () {
-                print('Go to edit product screen');
+                context.push('/my-products/${product.id}/edit');
               },
             ),
             DeleteUserProductButton(

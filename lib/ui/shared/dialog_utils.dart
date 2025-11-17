@@ -34,6 +34,24 @@ Future<bool?> showConfirmationDialog(BuildContext context, String message) {
   );
 }
 
+Future<void> showErrorDialog(BuildContext context, String message) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      icon: const Icon(Icons.error),
+      title: const Text('An Error Occurred!'),
+      content: Text(message),
+      actions: <Widget>[
+        ActionButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    ),
+  );
+}
+
 
 class ActionButton extends StatelessWidget {
   final String? actionText;
@@ -41,8 +59,8 @@ class ActionButton extends StatelessWidget {
 
   const ActionButton({
     super.key,
-    required this.actionText,
-    required this.onPressed,
+    this.actionText,
+    this.onPressed,
   });
 
   @override
@@ -59,3 +77,5 @@ class ActionButton extends StatelessWidget {
     );
   }
 }
+
+

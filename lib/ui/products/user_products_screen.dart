@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'user_product_list_tile.dart';
 import 'package:provider/provider.dart';
 import '../shared/app_drawer.dart';
+import 'package:go_router/go_router.dart';
 
 import 'products_manager.dart';
 
@@ -17,7 +18,7 @@ class UserProductsScreen extends StatelessWidget {
         actions: <Widget>[
           AddUserProductButton(
             onPressed: () {
-              print('Go to edit product screen');
+              context.push('/my-products/new');
             }
           ),
         ]
