@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'cart_item_card.dart';
 import 'cart_manager.dart';
+import '../orders/orders_manager.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -17,8 +18,9 @@ class CartScreen extends StatelessWidget {
         children: <Widget>[
           CartSummary(
             cart: cart,
-            onOrderNowPressed: () {
-              print('An order has been added');
+            onOrderNowPressed: cart.totalAmount <= 0 ? null : () {
+              context.read<OrderManager>().addOrder(cart.products, cart.totalAmount);
+              cart.clearAllItems();
             },
           ),
           const SizedBox(height: 10),

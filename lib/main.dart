@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductsManager()),
         ChangeNotifierProvider(create: (_) => CartManager()),
+        ChangeNotifierProvider(create: (_) => OrderManager()),
       ],
       child: MaterialApp.router(
         title: 'MyShop',
