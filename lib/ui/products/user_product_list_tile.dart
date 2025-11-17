@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'products_manager.dart';
 import '../../models/product.dart';
 
 class DeleteUserProductButton extends StatelessWidget {
@@ -64,6 +66,7 @@ class UserProductListTile extends StatelessWidget {
             ),
             DeleteUserProductButton(
               onPressed: () {
+                context.read<ProductsManager>().deleteProduct(product.id!);
                 ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
